@@ -1,0 +1,25 @@
+<service>
+	<id>matzahcounter.exe</id>
+	<name>Matzah Counter</name>
+	<description>Count records for Matzah Bakery</description>
+	<executable>C:\Program Files\nodejs\node.exe</executable>
+	<logmode>rotate</logmode>
+	<argument>--harmony</argument>
+	<argument>C:\Users\MosheHerzog\Documents\MyPrograms\MatzosCounter\node_modules\node-windows\lib\wrapper.js</argument>
+	<argument>--file</argument>
+	<argument>C:\Users\MosheHerzog\Documents\MyPrograms\MatzosCounter\bin\www</argument>
+	<argument>--log</argument>
+	<argument>Matzah Counter wrapper</argument>
+	<argument>--grow</argument>
+	<argument>0.25</argument>
+	<argument>--wait</argument>
+	<argument>1</argument>
+	<argument>--maxrestarts</argument>
+	<argument>3</argument>
+	<argument>--abortonerror</argument>
+	<argument>n</argument>
+	<argument>--stopparentfirst</argument>
+	<argument>undefined</argument>
+	<stoptimeout>30sec</stoptimeout>
+	<workingdirectory>C:\Users\MosheHerzog\Documents\MyPrograms\MatzosCounter</workingdirectory>
+</service>

@@ -1,0 +1,12 @@
+2018-01-08 16:09:22 - Starting C:\Program Files\nodejs\node.exe  --harmony C:\Users\MosheHerzog\Documents\MyPrograms\MatzosCounter\node_modules\node-windows\lib\wrapper.js --file C:\Users\MosheHerzog\Documents\MyPrograms\MatzosCounter\bin\www --log "Matzah Counter wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2018-01-08 16:09:22 - Started 8804
+2018-01-08 16:09:35 - Stopping matzahcounter.exe
+2018-01-08 16:09:35 - ProcessKill 8804
+2018-01-08 16:09:35 - Found child process: 15428 Name: node.exe
+2018-01-08 16:09:35 - Stopping process 15428
+2018-01-08 16:09:35 - Send SIGINT 15428
+2018-01-08 16:09:35 - SIGINT to 15428 failed - Killing as fallback
+2018-01-08 16:09:35 - Stopping process 8804
+2018-01-08 16:09:35 - Send SIGINT 8804
+2018-01-08 16:09:35 - SIGINT to8804 successful
+2018-01-08 16:09:35 - Finished matzahcounter.exe
