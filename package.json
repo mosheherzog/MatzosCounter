@@ -1,0 +1,26 @@
+{
+  "name": "counter",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./bin/www"
+  },
+  "dependencies": {
+    "axios": "^0.15.3",
+    "body-parser": "~1.16.0",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.0",
+    "ejs": "~2.5.5",
+    "express": "~4.14.1",
+    "knex": "^0.12.9",
+    "morgan": "~1.7.0",
+    "node-windows": "*",
+    "nodemon": "^1.11.0",
+    "path": "^0.12.7",
+    "pg": "^6.1.5",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "serve-favicon": "^2.4.5",
+    "webpack": "^2.3.1"
+  }
+}
