@@ -1,0 +1,83 @@
+CREATE TABLE tbl_members
+(
+  "key" "char" NOT NULL,
+  lastMatza bigint,
+  batches numeric,
+  CONSTRAINT tbl_member_pk PRIMARY KEY (key)
+)
+
+CREATE TABLE tbl_records
+(
+  id bigserial NOT NULL,
+  shift bigint,
+  "key" "char",
+  seconds numeric,
+  batch numeric,
+  date date,
+  "time" bigint,
+  CONSTRAINT tbl_records_pkey PRIMARY KEY (id)
+)
+
+CREATE TABLE tbl_settings
+(
+    key character(20) COLLATE NOT NULL,
+    val character(20) COLLATE,
+    CONSTRAINT tbl_settings_pkey PRIMARY KEY (key)
+)
+
+
+CREATE TABLE tbl_shifts
+(
+  id serial NOT NULL,
+  "start" numeric,
+  ends numeric,
+  CONSTRAINT tbl_shifts_pkey PRIMARY KEY (id)
+)
+
+CREATE OR REPLACE VIEW v_info AS 
+SELECT countshift.date, countshift.shift, countshift.key, countshift.total, countshift.totalbatches, countshift.avrageseconds, countbatch.current, countbatch.key1
+FROM ( SELECT c.date, c.shift, m.key, count(c.key) AS total, m.batches AS totalbatches, avg(c.seconds) AS avrageseconds
+FROM tbl_members m
+JOIN tbl_records c ON m.key = c.key
+GROUP BY c.date, c.shift, m.key, c.batch, m.batches
+HAVING c.date = 'now'::text::date AND c.shift = (( SELECT tbl_settings.val::integer AS val
+FROM tbl_settings
+WHERE tbl_settings.key = 'crntShift'::text))
+ORDER BY m.key) countshift
+JOIN ( SELECT count(c.key) AS current, m.key AS key1
+FROM tbl_members m
+JOIN records c ON m.key = c.key
+GROUP BY c.date, c.shift, m.key, c.batch
+HAVING c.date = 'now'::text::date AND c.shift = (( SELECT tbl_settings.val::integer AS val
+FROM tbl_settings
+WHERE tbl_settings.key = 'crntShift'::text)) AND c.batch = (( SELECT tbl_settings.val::integer AS val
+FROM tbl_settings
+WHERE tbl_settings.key = 'crntBatch'::text))::numeric
+ORDER BY m.key) countbatch ON countshift.key = countbatch.key1;
+
+//then populate the members and settings table
+
+INSERT INTO members (key) VALUES ('A')
+INSERT INTO members (key) VALUES ('B')
+INSERT INTO members (key) VALUES ('C')
+INSERT INTO members (key) VALUES ('D')
+INSERT INTO members (key) VALUES ('E')
+INSERT INTO members (key) VALUES ('F')
+INSERT INTO members (key) VALUES ('G')
+INSERT INTO members (key) VALUES ('H')
+INSERT INTO members (key) VALUES ('I')
+INSERT INTO members (key) VALUES ('J')
+INSERT INTO members (key) VALUES ('K')
+INSERT INTO members (key) VALUES ('L')
+INSERT INTO members (key) VALUES ('M')
+INSERT INTO members (key) VALUES ('N')
+INSERT INTO members (key) VALUES ('O')
+INSERT INTO members (key) VALUES ('P')
+INSERT INTO members (key) VALUES ('Q')
+INSERT INTO members (key) VALUES ('R')
+UPDATE members SET lastmatsa = 0;
+
+INSERT INTO tbl_settings (key, val) VALUES ('crntBatch', 0)
+INSERT INTO tbl_settings (key, val) VALUES ('crntShift', 1)
+INSERT INTO tbl_settings (key, val) VALUES ('dfltShift', 1)
+INSERT INTO tbl_settings (key, val) VALUES ('minScnds', 7)
