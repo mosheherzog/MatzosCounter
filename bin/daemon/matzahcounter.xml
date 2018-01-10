@@ -5,9 +5,9 @@
 	<executable>C:\Program Files\nodejs\node.exe</executable>
 	<logmode>rotate</logmode>
 	<argument>--harmony</argument>
-	<argument>C:\Users\MosheHerzog\Documents\MyPrograms\MatzosCounter\node_modules\node-windows\lib\wrapper.js</argument>
+	<argument>C:\Users\Shimon\Documents\MatzosCounter\node_modules\node-windows\lib\wrapper.js</argument>
 	<argument>--file</argument>
-	<argument>C:\Users\MosheHerzog\Documents\MyPrograms\MatzosCounter\bin\www</argument>
+	<argument>C:\Users\Shimon\Documents\MatzosCounter\bin\www</argument>
 	<argument>--log</argument>
 	<argument>Matzah Counter wrapper</argument>
 	<argument>--grow</argument>
@@ -21,5 +21,5 @@
 	<argument>--stopparentfirst</argument>
 	<argument>undefined</argument>
 	<stoptimeout>30sec</stoptimeout>
-	<workingdirectory>C:\Users\MosheHerzog\Documents\MyPrograms\MatzosCounter</workingdirectory>
+	<workingdirectory>C:\Users\Shimon\Documents\MatzosCounter</workingdirectory>
 </service>

@@ -1,3 +1,5 @@
+/*jshint esversion: 6 */
+
 var path = require('path');
 var express = require('express');
 var router = express.Router();
@@ -6,46 +8,50 @@ var functions = require('../functions/fncs.js');
 
 /* GET home page. */
 router.get('/', function(req, res) {
-	res.sendFile(path.join(__dirname, '..', 'client', 'index.html'));
+  res.sendFile(path.join(__dirname, '..', 'client', 'index.html'));
 });
 
 router.get('/get-info', function(req, res){
-	var shift = 1;
-	var batch = 0;
-	var membersInfo = [];
-	db.keyVal('crntBatch')
-	.then(function(data){
-		batch = data[0].val;
-		return db.keyVal('crntShift');
-	})
-	.then(function(data){
-		shift = data[0].val;
-		return db.read('v_info');
-	})
-	.then(function(data){
-		membersInfo = data;
-		return db.read('tbl_members');
-	})
-	.then(function(data){
-		var reslt = {
-			shift: shift,
-			batch: batch,
-			members: [],
-			winners: []
-		}
+	var locals = {};
+  locals.shift = 1;
+  locals.batch = 0;
+  locals.membersInfo = [];
+  locals.batches = [];
 
-		//get the order of current, to declare winners;
-		reslt.winners = membersInfo.map(function(x){ return x.current || 0}).sort(function(a, b){return b-a}).filter(function(x, y, z){ return z.indexOf(x) == y;}).splice(0, 3);
-		reslt.members = membersInfo;
-		/*.sort(function(a, b) {
-		if (a.key1 < b.key1) return -1;
-		if (a.key1 > b.key1)  return 1;
-		return 0;
-		});*/
+  db.keyVal('crntBatch')
+  .then(function(data){
+    locals.batch = data[0].val;
+    return db.keyVal('crntShift');
+  })
+  .then(data => {
+    locals.shift = data[0].val;
 
-		// sort the info in order;
-		res.json(reslt);
-	})
+    return functions.getInfo();
+  })
+  .then(function(data){
+    locals.membersInfo = data;
+    return db.read('v_batches');
+  })
+  .then(function(data){
+
+    batches = data;
+    var reslt = {
+      shift: locals.shift,
+      batch: locals.batch,
+      members: [],
+      winners: [],
+      batches: locals.batches,
+    };
+
+    //get the order of current, to declare winners;
+    reslt.winners = locals.membersInfo
+			.map(function(x){ return x.current || 0})
+			.sort(function(a, b){return b-a})
+			.filter(function(x, y, z){ return z.indexOf(x) == y;})
+			.splice(0, 3);
+    reslt.members = locals.membersInfo;
+    res.json(reslt);
+  });
 });
 
 module.exports = router;

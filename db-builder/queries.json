@@ -1,0 +1,46 @@
+[
+  {
+    "query": "CREATE TABLE members(\"key\" \"char\" NOT NULL, newbatch boolean, CONSTRAINT member_pk PRIMARY KEY (key))",
+    "success": "\n\n\nCreated table 'members'\n\n\n"
+  },
+  {
+    "query": "CREATE TABLE records(id bigserial NOT NULL, shift bigint, \"key\" \"char\", seconds numeric, \"firstMatsa\" boolean, batch numeric, date date, \"time\" bigint, CONSTRAINT records_pkey PRIMARY KEY (id))",
+    "success": "\n\n\n created table 'records'\n\n\n"
+  },
+  {
+    "query": "CREATE TABLE shifts (id bigint NOT NULL, \"start\" numeric, ends numeric, CONSTRAINT shifts_pkey PRIMARY KEY (id))",
+    "success": "\n\n\n created table 'shifts'\n\n\n"
+  },
+  {
+    "query": "CREATE TABLE tbl_settings (\"key\" text NOT NULL, val text, CONSTRAINT tbl_settings_pkey PRIMARY KEY (key))",
+    "success": "\n\n\n created table 'tbl_settings'\n\n\n"
+  },
+  {
+    "query": "CREATE OR REPLACE VIEW v_batches AS SELECT records.batch, ( SELECT (max(records.\"time\") - min(records.\"time\")) / 1000) AS length, count(DISTINCT records.key) AS countmembers FROM tbl_records as records WHERE records.date = 'now'::text::date AND records.shift = (( SELECT tbl_settings.val::integer AS val FROM tbl_settings WHERE tbl_settings.key = 'crntShift'::text)) GROUP BY records.batch ORDER BY records.batch DESC;",
+    "success": "\n\n\n created v_batches \n\n\n"
+  },
+  {
+    "query": "CREATE OR REPLACE VIEW v_info AS SELECT m.key AS key1, sum( CASE WHEN c.seconds >= (( SELECT tbl_settings.val::integer AS val FROM tbl_settings WHERE tbl_settings.key = 'minScnds'::text))::numeric AND c.date = 'now'::text::date AND c.shift = (( SELECT tbl_settings.val::integer AS val FROM tbl_settings WHERE tbl_settings.key = 'crntShift'::text)) THEN 1 ELSE 0 END) AS total, count(DISTINCT CASE WHEN c.seconds >= (( SELECT tbl_settings.val::integer AS val FROM tbl_settings WHERE tbl_settings.key = 'minScnds'::text))::numeric AND c.date = 'now'::text::date AND c.shift = (( SELECT tbl_settings.val::integer AS val FROM tbl_settings WHERE tbl_settings.key = 'crntShift'::text)) THEN c.batch ELSE NULL::numeric END) AS totalbatches, round(avg(CASE WHEN c.seconds >= (( SELECT tbl_settings.val::integer AS val FROM tbl_settings WHERE tbl_settings.key = 'minScnds'::text))::numeric AND c.date = 'now'::text::date AND c.shift = (( SELECT tbl_settings.val::integer AS val FROM tbl_settings WHERE tbl_settings.key = 'crntShift'::text)) THEN c.seconds ELSE NULL::numeric END), 2) AS avrageseconds, sum(CASE WHEN c.batch = (( SELECT tbl_settings.val::integer AS val FROM tbl_settings WHERE tbl_settings.key = 'crntBatch'::text))::numeric AND c.seconds >= (( SELECT tbl_settings.val::integer AS val FROM tbl_settings WHERE tbl_settings.key = 'minScnds'::text))::numeric AND c.date = 'now'::text::date AND c.shift = (( SELECT tbl_settings.val::integer AS val FROM tbl_settings WHERE tbl_settings.key = 'crntShift'::text)) THEN 1 ELSE 0 END) AS current FROM tbl_members m LEFT JOIN tbl_records c ON m.key = c.key GROUP BY m.key ORDER BY m.key;",
+   "success": "\n\n\n created v_info successfuly\n\n\n"
+  },
+  {
+    "query": "INSERT INTO tbl_settings (key, val) VALUES ('crntBatch', 0)",
+    "success": "\n\n\n updated crntBatch in the tbl_settings table'\n\n\n"
+  },
+  {
+    "query": "INSERT INTO tbl_settings (key, val) VALUES ('crntShift', 1)",
+    "success": "\n\n\n updated crntShift in the tbl_settings table'\n\n\n"
+  },
+  {
+    "query": "INSERT INTO tbl_settings (key, val) VALUES ('minScnds', 7)",
+    "success": "\n\n\n updated minScnds in the tbl_settings table, for 7 seconds.'\n\n\n"
+  },
+  {
+    "query": "INSERT INTO tbl_shifts (id, start, ends) VALUES (1, 0, 1304)",
+    "success": "\n\n\n updated shift 1, starts 12AM, ends 1:04pm'\n\n\n"
+  },
+  {
+    "query": "INSERT INTO tbl_shifts (id, start, ends) VALUES (2, 1304, 2400)",
+    "success": "\n\n\n updated shift 2, starts  1:04pm, ends 12AM '\n\n\n"
+  }
+]

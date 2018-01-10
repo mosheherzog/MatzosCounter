@@ -1,4 +1,7 @@
-[0mGET / [36m304 [0m5.794 ms - -[0m
-[0mGET /css/style.css [36m304 [0m2.840 ms - -[0m
-[0mGET /bundle.js [36m304 [0m3.155 ms - -[0m
-[0mGET /get-info [32m200 [0m80.216 ms - 1513[0m
+[0mGET / [36m304 [0m12.806 ms - -[0m
+[0mGET /css/style.css [36m304 [0m5.748 ms - -[0m
+[0mGET /bundle.js [32m200 [0m10.216 ms - 788521[0m
+[0mGET /get-info [36m304 [0m172.492 ms - -[0m
+[ anonymous { newbatch: false } ]
+[0mGET /record?key=A&time=1515554085598&date=2018-1-9 [32m200 [0m46.903 ms - 2[0m
+[0mGET /get-info [36m304 [0m7.659 ms - -[0m

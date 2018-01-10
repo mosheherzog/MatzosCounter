@@ -34,50 +34,70 @@ CREATE TABLE tbl_shifts
   CONSTRAINT tbl_shifts_pkey PRIMARY KEY (id)
 )
 
-CREATE OR REPLACE VIEW v_info AS 
-SELECT countshift.date, countshift.shift, countshift.key, countshift.total, countshift.totalbatches, countshift.avrageseconds, countbatch.current, countbatch.key1
-FROM ( SELECT c.date, c.shift, m.key, count(c.key) AS total, m.batches AS totalbatches, avg(c.seconds) AS avrageseconds
-FROM tbl_members m
-JOIN tbl_records c ON m.key = c.key
-GROUP BY c.date, c.shift, m.key, c.batch, m.batches
-HAVING c.date = 'now'::text::date AND c.shift = (( SELECT tbl_settings.val::integer AS val
-FROM tbl_settings
-WHERE tbl_settings.key = 'crntShift'::text))
-ORDER BY m.key) countshift
-JOIN ( SELECT count(c.key) AS current, m.key AS key1
-FROM tbl_members m
-JOIN records c ON m.key = c.key
-GROUP BY c.date, c.shift, m.key, c.batch
-HAVING c.date = 'now'::text::date AND c.shift = (( SELECT tbl_settings.val::integer AS val
-FROM tbl_settings
-WHERE tbl_settings.key = 'crntShift'::text)) AND c.batch = (( SELECT tbl_settings.val::integer AS val
-FROM tbl_settings
-WHERE tbl_settings.key = 'crntBatch'::text))::numeric
-ORDER BY m.key) countbatch ON countshift.key = countbatch.key1;
-
 //then populate the members and settings table
 
-INSERT INTO members (key) VALUES ('A')
-INSERT INTO members (key) VALUES ('B')
-INSERT INTO members (key) VALUES ('C')
-INSERT INTO members (key) VALUES ('D')
-INSERT INTO members (key) VALUES ('E')
-INSERT INTO members (key) VALUES ('F')
-INSERT INTO members (key) VALUES ('G')
-INSERT INTO members (key) VALUES ('H')
-INSERT INTO members (key) VALUES ('I')
-INSERT INTO members (key) VALUES ('J')
-INSERT INTO members (key) VALUES ('K')
-INSERT INTO members (key) VALUES ('L')
-INSERT INTO members (key) VALUES ('M')
-INSERT INTO members (key) VALUES ('N')
-INSERT INTO members (key) VALUES ('O')
-INSERT INTO members (key) VALUES ('P')
-INSERT INTO members (key) VALUES ('Q')
-INSERT INTO members (key) VALUES ('R')
-UPDATE members SET lastmatsa = 0;
+INSERT INTO tbl_members (key) VALUES ('A');
+INSERT INTO tbl_members (key) VALUES ('B');
+INSERT INTO tbl_members (key) VALUES ('C');
+INSERT INTO tbl_members (key) VALUES ('D');
+INSERT INTO tbl_members (key) VALUES ('E');
+INSERT INTO tbl_members (key) VALUES ('F');
+INSERT INTO tbl_members (key) VALUES ('G');
+INSERT INTO tbl_members (key) VALUES ('H');
+INSERT INTO tbl_members (key) VALUES ('I');
+INSERT INTO tbl_members (key) VALUES ('J');
+INSERT INTO tbl_members (key) VALUES ('K');
+INSERT INTO tbl_members (key) VALUES ('L');
+INSERT INTO tbl_members (key) VALUES ('M');
+INSERT INTO tbl_members (key) VALUES ('N');
+INSERT INTO tbl_members (key) VALUES ('O');
+INSERT INTO tbl_members (key) VALUES ('P');
+INSERT INTO tbl_members (key) VALUES ('Q');
+INSERT INTO tbl_members (key) VALUES ('R');
+UPDATE tbl_members SET lastmatza = 0;
 
 INSERT INTO tbl_settings (key, val) VALUES ('crntBatch', 0)
 INSERT INTO tbl_settings (key, val) VALUES ('crntShift', 1)
 INSERT INTO tbl_settings (key, val) VALUES ('dfltShift', 1)
 INSERT INTO tbl_settings (key, val) VALUES ('minScnds', 7)
+
+
+
+
+CREATE OR REPLACE VIEW v_info AS
+  SELECT
+    countshift.date,
+    countshift.shift,
+    countshift.key,
+    countshift.total,
+    countshift.totalbatches,
+    countshift.avrageseconds,
+    countbatch.current,
+    countbatch.key1
+  FROM (
+    SELECT
+      c.date,
+      c.shift,
+      m.key,
+      count(c.key) AS total,
+      m.batches AS totalbatches,
+      avg(c.seconds) AS avrageseconds
+      FROM tbl_members m
+      JOIN tbl_records c ON m.key = c.key
+      GROUP BY c.date, c.shift, m.key, c.batch, m.batches
+      HAVING c.date = 'now'::text::date AND c.shift = (( SELECT tbl_settings.val::integer AS val
+                                                          FROM tbl_settings
+                                                          WHERE tbl_settings.key = 'crntShift'::text))
+                                                          ORDER BY m.key) countshift
+                JOIN ( SELECT
+                  count(c.key) AS current,
+                  m.key AS key1
+                FROM tbl_members m
+              JOIN TBL_records c ON m.key = c.key
+              GROUP BY c.date, c.shift, m.key, c.batch
+              HAVING c.date = 'now'::text::date AND c.shift = (( SELECT tbl_settings.val::integer AS val
+  FROM tbl_settings
+  WHERE tbl_settings.key = 'crntShift'::text)) AND c.batch = (( SELECT tbl_settings.val::integer AS val
+  FROM tbl_settings
+  WHERE tbl_settings.key = 'crntBatch'::text))::numeric
+  ORDER BY m.key) countbatch ON countshift.key = countbatch.key1;

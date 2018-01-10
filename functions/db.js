@@ -4,7 +4,7 @@ var cfg = require('../config.json').db;
 
 var config = {
 	user: cfg.user,
-	database: cfg.database, //env var: PGDATABASE
+	database: process.env.PGDATABASE|| cfg.database, //env var: PGDATABASE
 	password: cfg.password, //env var: PGPASSWORD
 	host: cfg.host, // Server hosting the postgres database
 	port: cfg.port, //env var: PGPORT
@@ -23,7 +23,7 @@ var db = {
 		return knex.raw(queryString, valsArray);
 	},
 	create: function create(table, keyVals) {
-		return knex(table).returning('ID').insert(keyVals);
+		return knex(table).returning('id').insert(keyVals);
 	},
 	read: function read(table, filter, order, clms) {
 		var query =  knex.select(clms).from(table);
@@ -32,7 +32,10 @@ var db = {
 		return query;
 	},
 	update: function update(table, pk, keyVals) {
-		return knex(table).where('ID', pk).update(keyVals).returning('ID');
+		//for when updating not by the id
+		if(typeof pk == "object") return knex(table).where(pk.key, pk.val).update(keyVals);
+		if(!pk) return knex(table).update(keyVals);
+		return knex(table).where('id', pk).update(keyVals).returning('id');
 	},
 	// a special function to update the keyVals table
 	keyVal: function updateKeyVal(key, val) {
@@ -43,7 +46,7 @@ var db = {
 	},
 	delete: function _delete(table, pk) {
 
-		return knex(table).where('ID', pk).del().returning('ID');
+		return knex(table).where('id', pk).del().returning('id');
 	}
 };
 

@@ -1,26 +1,43 @@
 {
-  "name": "counter",
+  "name": "@shimonbr/counter",
   "version": "0.0.0",
-  "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "nodemon ./bin/www",
+    "compile": "webpack",
+    "test": "mocha test/main.js test/db.js test/records.js test/functions.js",
+    "build-db": "node db-builder/db-builder.js",
+    "install-service": "node install.js"
   },
   "dependencies": {
     "axios": "^0.15.3",
     "body-parser": "~1.16.0",
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.0",
     "ejs": "~2.5.5",
     "express": "~4.14.1",
+    "html-webpack-plugin": "^2.28.0",
     "knex": "^0.12.9",
     "morgan": "~1.7.0",
-    "node-windows": "*",
+    "mocha": "^3.2.0",
+    "node-windows": "^0.1.14",
     "nodemon": "^1.11.0",
     "path": "^0.12.7",
     "pg": "^6.1.5",
+    "pgtools": "^0.2.3",
+    "prompt": "^1.0.0",
     "react": "^15.4.2",
+    "react-bootstrap": "^0.30.8",
     "react-dom": "^15.4.2",
-    "serve-favicon": "^2.4.5",
+    "react-fetch": "0.0.9",
+    "serve-favicon": "~2.3.2",
     "webpack": "^2.3.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.1",
+    "babel-preset-es2015": "^6.24.0",
+    "babel-preset-react": "^6.23.0"
   }
 }
