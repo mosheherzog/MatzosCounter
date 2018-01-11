@@ -1,14 +1,14 @@
 [
   {
-    "query": "CREATE TABLE members(\"key\" \"char\" NOT NULL, newbatch boolean, CONSTRAINT member_pk PRIMARY KEY (key))",
+    "query": "CREATE TABLE tbl_members(\"key\" \"char\" NOT NULL, newbatch boolean, CONSTRAINT member_pk PRIMARY KEY (key))",
     "success": "\n\n\nCreated table 'members'\n\n\n"
   },
   {
-    "query": "CREATE TABLE records(id bigserial NOT NULL, shift bigint, \"key\" \"char\", seconds numeric, \"firstMatsa\" boolean, batch numeric, date date, \"time\" bigint, CONSTRAINT records_pkey PRIMARY KEY (id))",
+    "query": "CREATE TABLE tbl_records(id bigserial NOT NULL, shift bigint, \"key\" \"char\", seconds numeric, \"firstMatsa\" boolean, batch numeric, date date, \"time\" bigint, CONSTRAINT records_pkey PRIMARY KEY (id))",
     "success": "\n\n\n created table 'records'\n\n\n"
   },
   {
-    "query": "CREATE TABLE shifts (id bigint NOT NULL, \"start\" numeric, ends numeric, CONSTRAINT shifts_pkey PRIMARY KEY (id))",
+    "query": "CREATE TABLE tbl_shifts (id bigint NOT NULL, \"start\" numeric, ends numeric, CONSTRAINT shifts_pkey PRIMARY KEY (id))",
     "success": "\n\n\n created table 'shifts'\n\n\n"
   },
   {

@@ -1,14 +1,14 @@
-'use strict';
-var prompt = require('prompt');
-var pgtools = require('pgtools');
-var queries = require('./queries.json');
+/*jshint esversion: 6 */
+const prompt = require('prompt');
+const pgtools = require('pgtools');
+const queries = require('./queries.json');
 
 const config = {
   user: 'postgres',
   password: 'postgres',
   port: 5432,
   host: 'localhost'
-}
+};
 
 consoleMe('Welcome to our Data-Base builder, cutomised by @shimon.brandsdorfer. \n All rights reserved!\n ...\n ...\n... \n...');
 
@@ -18,7 +18,7 @@ consoleMe('I will Just ask you to enter the Data-Base name, so I can build the d
  var schema = {
     properties: {
       name: {
-        description: 'Enter the name of the data-base to build: (default: "matsah")',
+        description: 'Enter the name of the data-base to build: (default: "MatzosData")',
         type: 'string',
         default: 'matsah',
         required: true
@@ -33,10 +33,11 @@ consoleMe('I will Just ask you to enter the Data-Base name, so I can build the d
         type: 'string'
       }
     }
-  }
+  };
  prompt.get(schema, function (err, result) {
    if (err) { return onErr(err); }
-   if(result.confirm === 'y') createDB(result.name); else consoleMe("Aborting..........\n\n\n\n\n\n\n...........\n\n\n\n\n......\n\n\n\n")
+   if(result.confirm === 'y') createDB(result.name);
+   else consoleMe("Aborting..........\n\n\n\n\n\n\n...........\n\n\n\n\n......\n\n\n\n");
  });
 
  function onErr(err) {
@@ -45,7 +46,7 @@ consoleMe('I will Just ask you to enter the Data-Base name, so I can build the d
  }
 
  function consoleMe(msg){
-   console.log('\x1b[33m%s\x1b[0m:', msg)
+   console.log('\x1b[33m%s\x1b[0m:', msg);
  }
 
 
@@ -55,7 +56,7 @@ consoleMe('I will Just ask you to enter the Data-Base name, so I can build the d
    pgtools.createdb(config, name, function (err, res) {
      if (err) return onErr(err);
      consoleMe("DataBase: '" + name + "' created successfuly!");
-     populate(name)
+     populate(name);
    });
  }
 
@@ -94,7 +95,7 @@ consoleMe('I will Just ask you to enter the Data-Base name, so I can build the d
 
 
    function addMember(key){
-     return knex.raw("INSERT INTO members (key) VALUES ('" + key + "')")
+     return knex.raw("INSERT INTO tbl_members (key) VALUES ('" + key + "')")
      .then(function(){
         consoleMe("added member: " + key + " to the table!");
         return key;
