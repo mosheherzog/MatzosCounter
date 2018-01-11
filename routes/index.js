@@ -34,7 +34,7 @@ router.get('/get-info', function(req, res){
   })
   .then(function(data){
 
-    batches = data;
+    locals.batches = data;
     var reslt = {
       shift: locals.shift,
       batch: locals.batch,
@@ -42,13 +42,14 @@ router.get('/get-info', function(req, res){
       winners: [],
       batches: locals.batches,
     };
-
+    console.log(locals.membersInfo)
     //get the order of current, to declare winners;
     reslt.winners = locals.membersInfo
-			.map(function(x){ return x.current || 0})
-			.sort(function(a, b){return b-a})
-			.filter(function(x, y, z){ return z.indexOf(x) == y;})
+			.map(x => x.current || 0)
+			.sort((a, b) =>  b - a)
+			.filter(function(x, y, z){ return Number(x) && z.indexOf(x) == y;})
 			.splice(0, 3);
+    console.log(reslt.winners)
     reslt.members = locals.membersInfo;
     res.json(reslt);
   });

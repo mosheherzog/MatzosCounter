@@ -1,10 +1,10 @@
-'use strict';
+/*jshint esversion: 6 */
 var db = require('./db');
 
 module.exports = {
   //determine the current shift ID.
   getCurrentShift: function(){
-      return db.query("SELECT * FROM tbl_shifts WHERE id = (SELECT CAST(val AS INTEGER) FROM tbl_settings WHERE key = 'crntShift');")
+      return db.query("SELECT * FROM tbl_shifts WHERE id = (SELECT CAST(val AS INTEGER) FROM tbl_settings WHERE key = 'crntShift');");
   },
 
   getCurrentBatch: function(){

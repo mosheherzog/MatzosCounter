@@ -11483,7 +11483,7 @@ exports.default = Batches;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -11501,70 +11501,73 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Table = function (_React$Component) {
-    _inherits(Table, _React$Component);
+  _inherits(Table, _React$Component);
 
-    function Table() {
-        _classCallCheck(this, Table);
+  function Table() {
+    _classCallCheck(this, Table);
 
-        return _possibleConstructorReturn(this, (Table.__proto__ || Object.getPrototypeOf(Table)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (Table.__proto__ || Object.getPrototypeOf(Table)).apply(this, arguments));
+  }
+
+  _createClass(Table, [{
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      return _react2.default.createElement(
+        "div",
+        { className: "table " + this.props.position + " table" + this.props.order },
+        this.props.members.map(function (member, index) {
+          var backClr = 'member_key';
+          //check if member is a winner
+          var isWinner = _this2.props.winners.indexOf(member.current);
+          if (isWinner > -1) {
+            backClr = 'max' + (isWinner + 1);
+          }
+          if (!Number(member.current)) {
+            backClr = 'zero';
+          }
+
+          return _react2.default.createElement(
+            "div",
+            { key: index, className: "row" },
+            _react2.default.createElement(
+              "div",
+              { className: "table-cell cell " + backClr },
+              member.key1
+            ),
+            _react2.default.createElement(
+              "div",
+              { className: "table-cell cell normal" },
+              member.current || 0
+            ),
+            _react2.default.createElement(
+              "div",
+              { className: "table-cell cell normal" },
+              member.total || 0
+            ),
+            _react2.default.createElement(
+              "div",
+              { className: "table-cell cell normal" },
+              (Number(member.total) / Number(member.totalbatches) || 0).toFixed(2)
+            ),
+            _react2.default.createElement(
+              "div",
+              { className: "table-cell cell normal" },
+              Number(member.avrageseconds).toFixed(2)
+            ),
+            _react2.default.createElement(
+              "div",
+              { className: "table-cell cell normal" },
+              member.totalbatches || 0
+            )
+          );
+        })
+      );
     }
+  }]);
 
-    _createClass(Table, [{
-        key: "render",
-        value: function render() {
-            var _this2 = this;
-
-            return _react2.default.createElement(
-                "div",
-                { className: "table " + this.props.position + " table" + this.props.order },
-                this.props.members.map(function (member, index) {
-                    var backClr = 'normal';
-                    //check if member is a winner
-                    var isWinner = _this2.props.winners.indexOf(member.current);
-                    if (isWinner > -1) {
-                        backClr = 'max' + (isWinner + 1);
-                    }
-
-                    return _react2.default.createElement(
-                        "div",
-                        { key: index, className: "row" },
-                        _react2.default.createElement(
-                            "div",
-                            { className: "table-cell cell " + backClr },
-                            member.key1
-                        ),
-                        _react2.default.createElement(
-                            "div",
-                            { className: "table-cell cell normal" },
-                            member.current || 0
-                        ),
-                        _react2.default.createElement(
-                            "div",
-                            { className: "table-cell cell normal" },
-                            member.total || 0
-                        ),
-                        _react2.default.createElement(
-                            "div",
-                            { className: "table-cell cell normal" },
-                            (Number(member.total) / Number(member.totalbatches) || 0).toFixed(2)
-                        ),
-                        _react2.default.createElement(
-                            "div",
-                            { className: "table-cell cell normal" },
-                            Number(member.avrageseconds).toFixed(2)
-                        ),
-                        _react2.default.createElement(
-                            "div",
-                            { className: "table-cell cell normal" },
-                            member.totalbatches || 0
-                        )
-                    );
-                })
-            );
-        }
-    }]);
-
-    return Table;
+  return Table;
 }(_react2.default.Component);
 
 exports.default = Table;

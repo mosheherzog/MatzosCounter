@@ -7,11 +7,14 @@ export default class Table extends React.Component {
 
            {
              this.props.members.map( (member, index) => {
-                var backClr = 'normal';
+                var backClr = 'member_key';
                 //check if member is a winner
                 var isWinner = this.props.winners.indexOf(member.current);
                 if (isWinner > -1) {
-                backClr = 'max' + (isWinner + 1);
+                  backClr = 'max' + (isWinner + 1);
+                }
+                if(!Number(member.current)){
+                  backClr = 'zero'
                 }
 
                 return (

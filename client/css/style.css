@@ -122,6 +122,12 @@ body{
 .cell.normal{
 	background-color: yellow;
 }
+.cell.zero{
+	background-color: #bbd0de;
+}
+cell.member_key{
+	background-color: :#dbff00
+}
 
 
 /* winner collors*/
